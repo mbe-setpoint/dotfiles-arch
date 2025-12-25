@@ -185,10 +185,14 @@ function step_4_install_software()
     print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
     sudo pacman -S --needed tmux starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf mise
     sudo pacman -S --needed base-devel
-    git clone https://aur.archlinux.org/paru.git
-    cd paru
-    makepkg -si
-    git restore .
+    if command -v paru >/dev/null 2>&1; then
+	    print -P "%F{green}✓ paru already installed - skipping%f"
+    else
+	    git clone https://aur.archlinux.org/paru.git
+	    cd paru
+	    makepkg -si
+	    git restore .
+    fi
     mise plugins add neovim
     mise use --global neovim@nightly
     rm -rf ~/.config/nvim
@@ -205,7 +209,6 @@ function step_5_dotfiles_and_extras()
     print -P "\n%F{blue}=== Step 5: Installing dotfiles ===%f"
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
-    mv ~/.zshrc ~/.zshrc_old
     cd ~/.dotfiles
     stow --adapt .
     git restore .
