@@ -92,7 +92,7 @@ function show_menu()
     print -P "%F{yellow}2)%f Configure git settings"
     print -P "%F{yellow}3)%f Install oh-my-zsh"
     print -P "%F{yellow}4)%f Install extra software (stow, neovim, docker, etc.)"
-    print -P "%F{yellow}5)%f Clone and install dotfiles"
+    print -P "%F{yellow}5)%f Clone and install dotfiles and common software"
     print -P "%F{yellow}6)%f Enable and start SSH service"
     print -P "%F{yellow}7)%f Enable and start Docker service"
     print -P "%F{green}8)%f Run most default steps (2, 3, 4, 5, 6, 7)"
@@ -195,7 +195,7 @@ function step_4_install_software()
     print -P "%F{green}✓ Extra software installed%f"
 }
 
-function step_5_dotfiles()
+function step_5_dotfiles_and_extras()
 {
     print -P "\n%F{blue}=== Step 5: Installing dotfiles ===%f"
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
@@ -205,6 +205,10 @@ function step_5_dotfiles()
     stow .
     cd ~
     source ~/.zshrc
+    sudo pacman -Fy #Syncs all sources
+    in 1password
+    paru -S --noconfirm zen-browser
+    paru -S --noconfirm zed
     prompt 'Dotfiles installed.'
     print -P "%F{green}✓ Dotfiles setup completed%f"
 }
@@ -279,7 +283,7 @@ function execute_steps()
                 step_2_git_config
                 step_3_oh_my_zsh
                 step_4_install_software
-                step_5_dotfiles
+                step_5_dotfiles_and_extras
                 step_6_ssh_service
                 step_7_docker_service
                 break
