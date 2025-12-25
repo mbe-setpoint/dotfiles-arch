@@ -183,7 +183,11 @@ function step_3_oh_my_zsh()
 function step_4_install_software()
 {
     print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
-    sudo pacman -S --needed tmux starship stow paru docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf mise
+    sudo pacman -S --needed tmux starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf mise
+    sudo pacman -S --needed base-devel
+    git clone https://aur.archlinux.org/paru.git
+    cd paru
+    makepkg -si
     mise plugins add neovim
     mise use --global neovim@nightly
     rm -rf ~/.config/nvim
