@@ -252,10 +252,74 @@ function update() {
     echo "✅ System update complete!"
 }
 
+function mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+# Detect AUR helper for package management
+# if pacman -Qi paru &>/dev/null; then
+#     aurhelper="paru"
+# elif pacman -Qi yay &>/dev/null; then
+#     aurhelper="yay"
+# else
+#     aurhelper="sudo pacman"
+# fi
 
 alias lg=lazygit
 alias ld=lazydocker
 alias cl=clear
+alias reload='source ~/.zshrc'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias mkdir='mkdir -p'        # Always create parent directories
+alias cp='cp -i'              # Confirm before overwrite
+alias mv='mv -i'              # Confirm before overwrite
+alias rm='rm -i'              # Confirm before delete
+alias myip='curl -s https://ifconfig.me'
+alias ports='sudo netstat -tulanp'
+
+# Navigation
+bindkey '^A' beginning-of-line           # Ctrl+A
+bindkey '^E' end-of-line                 # Ctrl+E
+bindkey '^[[1;5C' forward-word          # Ctrl+Right
+bindkey '^[[1;5D' backward-word         # Ctrl+Left
+bindkey '^[[H' beginning-of-line        # Home
+bindkey '^[[F' end-of-line              # End
+bindkey '^[[3~' delete-char             # Delete
+bindkey '^K' kill-line                  # Kill to end of line
+bindkey '^U' kill-whole-line            # Kill entire line
+
+# History navigation
+bindkey '^P' up-line-or-history         # Ctrl+P (like Vim)
+bindkey '^N' down-line-or-history       # Ctrl+N (like Vim)
+bindkey '^S' history-incremental-search-forward  # Ctrl+S
+
+# Custom: FZF history search on Ctrl+R
+bindkey '^R' fzf_history_search
+
+if command -v fzf &>/dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --preview-window=right:60%'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+    export FZF_ALT_C_OPTS="--preview 'eza --tree {} | head -200'"
+fi
+
+# Prefer eza over ls for better visuals
+if command -v eza &>/dev/null; then
+    alias ls='eza --icons=auto --group-directories-first'
+    alias l='eza -l --icons=auto --group-directories-first'
+    alias ll='eza -la --icons=auto --sort=name --group-directories-first'
+    alias lt='eza --tree --level=2 --icons=auto'
+    alias ld='eza -lD --icons=auto'
+else
+    alias ls='ls --color=auto'
+    alias l='ls -lh'
+    alias ll='ls -lha'
+    alias ld='ls -lhd */'
+fi
 
 #Initialize zoxide
 eval "$(zoxide init zsh)"
