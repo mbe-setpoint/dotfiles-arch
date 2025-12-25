@@ -2,7 +2,7 @@
 # Enable profiling (uncomment to use)
 # zmodload zsh/zprof
 
-fastfetch
+fastfetch -c examples/14
 
 # Path to your Oh My Zsh installation.
 # export ZSH="$HOME/.oh-my-zsh"
