@@ -76,7 +76,7 @@ echo " __  __ ____  _____      _    ____   ____ _   _"
 echo "|  \/  | __ )| ____|    / \  |  _ \ / ___| | | |"
 echo "| |\/| |  _ \|  _|     / _ \ | |_) | |   | |_| |"
 echo "| |  | | |_) | |___   / ___ \|  _ <| |___|  _  |"
-echo "|_|  |_|____/|_____| /_/   \_\_| \_\\____|_| |_|"
+echo "|_|  |_|____/|_____| /_/   \_\_| \_|\____|_| |_|"
 
     print "\n"
     print -P "%F{blue} This tool will install the necessary dependencies and configurations. %f"
@@ -95,9 +95,9 @@ function show_menu()
     print -P "%F{yellow}5)%f Clone and install dotfiles"
     print -P "%F{yellow}6)%f Enable and start SSH service"
     print -P "%F{yellow}7)%f Enable and start Docker service"
-    print -P "%F{green}8)%f Run most common steps"
+    print -P "%F{green}8)%f Run most default steps (2, 3, 4, 5, 6, 7)"
     print -P "%F{red}9)%f Exit"
-    print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 8 for most common): %f"
+    print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 8 for default steps): %f"
 }
 
 function get_user_choices()
@@ -187,11 +187,11 @@ function step_4_install_software()
     mise plugins add neovim
     mise use --global neovim@nightly
     rm -rf ~/.config/nvim
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
     rm -rf ~/.local/share/nvim
     rm -rf ~/.local/state/nvim
     rm -rf ~/.cache/nvim
     rm -rf ~/.config/nvim/.git
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
     print -P "%F{green}✓ Extra software installed%f"
 }
 
@@ -199,6 +199,7 @@ function step_5_dotfiles()
 {
     print -P "\n%F{blue}=== Step 5: Installing dotfiles ===%f"
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
+    git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
     mv ~/.zshrc ~/.zshrc_old
     cd ~/.dotfiles
     stow .
@@ -274,9 +275,9 @@ function execute_steps()
                 step_7_docker_service
                 ;;
             8)
-                print -P "\n%F{green}=== Running most common steps ===%f"
+                print -P "\n%F{green}=== Running default steps ===%f"
                 step_2_git_config
-                # step_3_oh_my_zsh
+                step_3_oh_my_zsh
                 step_4_install_software
                 step_5_dotfiles
                 step_6_ssh_service
