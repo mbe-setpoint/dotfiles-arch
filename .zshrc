@@ -269,6 +269,7 @@ alias lg=lazygit
 alias ld=lazydocker
 alias cl=clear
 alias reload='source ~/.zshrc'
+alias h='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias .3='cd ../../..'
@@ -322,6 +323,6 @@ else
 fi
 
 #Initialize zoxide
-eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh --cmd cd)"
 #Initialize mise
 eval "$(/usr/bin/mise activate zsh)"
