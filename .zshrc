@@ -1,4 +1,7 @@
 # Config from https://www.kishorenewton.com/posts/my-ultimate-developer-setup-zsh-config-2025/
+# Enable profiling (uncomment to use)
+# zmodload zsh/zprof
+
 fastfetch
 
 # Path to your Oh My Zsh installation.
@@ -326,3 +329,5 @@ fi
 eval "$(zoxide init zsh --cmd cd)"
 #Initialize mise
 eval "$(/usr/bin/mise activate zsh)"
+
+# zprof  # Shows what's slowing down startup
