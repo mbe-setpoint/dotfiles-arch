@@ -188,6 +188,7 @@ function step_4_install_software()
     git clone https://aur.archlinux.org/paru.git
     cd paru
     makepkg -si
+    git restore .
     mise plugins add neovim
     mise use --global neovim@nightly
     rm -rf ~/.config/nvim
@@ -206,7 +207,8 @@ function step_5_dotfiles_and_extras()
     git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
     mv ~/.zshrc ~/.zshrc_old
     cd ~/.dotfiles
-    stow .
+    stow --adapt .
+    git restore .
     cd ~
     source ~/.zshrc
     sudo pacman -Fy #Syncs all sources
