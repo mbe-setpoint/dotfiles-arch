@@ -307,12 +307,10 @@ function execute_steps()
                 ;;
             6)
                 print -P "\n%F{green}=== Running default steps ===%f"
-                step_2_git_config
-                step_3_oh_my_zsh
-                step_4_install_software
-                step_5_dotfiles_and_extras
-                step_6_ssh_service
-                step_7_docker_service
+                git_config
+                dotfiles_and_software
+                ssh_service
+                docker_service
                 break
                 ;;
             9)
