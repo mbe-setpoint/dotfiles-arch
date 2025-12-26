@@ -209,7 +209,7 @@ function step_5_dotfiles_and_extras()
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
     cd ~/.dotfiles
-    stow --adapt .
+    stow --adopt .
     git restore .
     cd ~
     source ~/.zshrc
