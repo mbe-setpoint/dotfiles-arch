@@ -215,9 +215,21 @@ function step_5_dotfiles_and_extras()
     cd ~
     source ~/.zshrc
     sudo pacman -Fy #Syncs all sources
-    in 1password
-    paru -S --noconfirm zen-browser
-    paru -S --noconfirm zed
+    if command -v 1password >/dev/null 2>&1; then
+	    print -P "%F{green}✓ 1password already installed - skipping%f"
+    else
+	    in 1password
+    fi
+    if command -v zen-browser >/dev/null 2>&1; then
+	    print -P "%F{green}✓ zen-browser already installed - skipping%f"
+    else
+	    paru -S --noconfirm zen-browser
+    fi
+    if command -v zeditor >/dev/null 2>&1; then
+	    print -P "%F{green}✓ zed already installed - skipping%f"
+    else
+	    paru -S --noconfirm zed
+    fi
     prompt 'Dotfiles installed.'
     print -P "%F{green}✓ Dotfiles setup completed%f"
 }
