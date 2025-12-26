@@ -193,7 +193,8 @@ function dotfiles_and_software()
     rm -rf ~/.cache/nvim
     rm -rf ~/.config/nvim/.git
 
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    # git clone https://github.com/LazyVim/starter ~/.config/nvim
+    git clone git@github.com:mbe-setpoint/mbe-nvim.git ~/.config/nvim
 
     if command -v 1password >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ 1password already installed - skipping%f"
