@@ -251,7 +251,7 @@ function sync_browser()
     prompt "Zen browser is running, it needs to be closed to sync."
     pkill -x "zen-bin"
   fi
-  if [[ "~/.zen"]]; then
+  if [[ -d "~/.zen" ]]; then
     mv ~/.zen ~/.zen_backup
   fi
   git clone git@github.com-setpoint:mbe-setpoint/zen-sync.git ~/.zen
