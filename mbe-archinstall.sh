@@ -344,7 +344,7 @@ while true; do
     print -P "\n%F{green}=== Setup completed for selected steps ===%f"
     print -P "%F{blue}Now log out and log in again to start using the server%f"
 
-    read "response?\nWould you like to run more steps? [y/N] "
+    read "response? Would you like to run more steps? [y/N] "
     response=${response:l}
     if [[ ! $response =~ ^(y) ]]; then
         break
