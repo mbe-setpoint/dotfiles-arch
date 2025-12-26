@@ -83,22 +83,6 @@ echo "|_|  |_|____/|_____| /_/   \_\_| \_|\____|_| |_|"
     print -P "%F{blue} For the most part you will only need to hit \'Enter\' to continue. Input the password for you user when asked to %f"
 }
 
-function show_menu()
-{
-    print -P "\n%F{cyan}=== Wave Server Setup Menu ===%f"
-    print -P "%F{white}Choose which steps to execute:%f\n"
-    print -P "%F{yellow}0)%f Set static ip"
-    print -P "%F{yellow}1)%f Fix power settings (disable hibernate/sleep)"
-    print -P "%F{yellow}2)%f Configure git settings"
-    print -P "%F{yellow}3)%f Install oh-my-zsh"
-    print -P "%F{yellow}4)%f Install extra software (stow, neovim, docker, etc.)"
-    print -P "%F{yellow}5)%f Clone and install dotfiles and common software"
-    print -P "%F{yellow}6)%f Enable and start SSH service"
-    print -P "%F{yellow}7)%f Enable and start Docker service"
-    print -P "%F{green}8)%f Run most default steps (2, 3, 4, 5, 6, 7)"
-    print -P "%F{red}9)%f Exit"
-    print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 8 for default steps): %f"
-}
 
 function get_user_choices()
 {
@@ -107,7 +91,7 @@ function get_user_choices()
     echo $choices
 }
 
-function step_0_ip_settings()
+function ip_settings()
 {
     print -P "\n%F{blue}=== Step 0: Setting up IP address ===%f"
 
@@ -151,14 +135,14 @@ EOF
     print -P "%F{green}✓ Static IP configured (%f$NEW_IP%F{green})%f"
 }
 
-function step_1_power_settings()
+function power_settings()
 {
     print -P "\n%F{blue}=== Step 1: Fixing power settings ===%f"
     sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
     print -P "%F{green}✓ Power settings configured%f"
 }
 
-function step_2_git_config()
+function git_config()
 {
     print -P "\n%F{blue}=== Step 2: Fixing git settings ===%f"
     git config --global user.email "mbe@setpoint.no"
@@ -166,7 +150,7 @@ function step_2_git_config()
     print -P "%F{green}✓ Git settings configured%f"
 }
 
-function step_3_oh_my_zsh()
+function dotfiles_and_software()
 {
     print -P "\n%F{blue}=== Step 3: Installing oh-my-zsh ===%f"
     if (( ${+ZSH} )); then
@@ -178,33 +162,7 @@ function step_3_oh_my_zsh()
         prompt 'Oh-my-zsh installed.'
     fi
     print -P "%F{green}✓ Oh-my-zsh setup completed%f"
-}
 
-function step_4_install_software()
-{
-    print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
-    sudo pacman -S --needed base-devel btop tmux starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
-    if command -v paru >/dev/null 2>&1; then
-	    print -P "%F{green}✓ paru already installed - skipping%f"
-    else
-	    git clone https://aur.archlinux.org/paru.git
-	    cd paru
-	    makepkg -si
-	    git restore .
-    fi
-    mise plugins add neovim
-    mise use --global neovim@nightly
-    rm -rf ~/.config/nvim
-    rm -rf ~/.local/share/nvim
-    rm -rf ~/.local/state/nvim
-    rm -rf ~/.cache/nvim
-    rm -rf ~/.config/nvim/.git
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
-    print -P "%F{green}✓ Extra software installed%f"
-}
-
-function step_5_dotfiles_and_extras()
-{
     print -P "\n%F{blue}=== Step 5: Installing dotfiles ===%f"
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
@@ -213,27 +171,49 @@ function step_5_dotfiles_and_extras()
     git restore .
     cd ~
     source ~/.zshrc
+    print -P "%F{green}✓ Dotfiles setup completed%f"
+
+    print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
+    sudo pacman -S --needed base-devel btop tmux starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
+    if command -v paru >/dev/null 2>&1; then
+	    print -P "%F{yellow}✓ paru already installed - skipping%f"
+    else
+	    git clone https://aur.archlinux.org/paru.git
+	    cd paru
+	    makepkg -si
+	    git restore .
+    fi
     sudo pacman -Fy #Syncs all sources
+
+    mise plugins add neovim
+    mise use --global neovim@nightly
+    rm -rf ~/.config/nvim
+    rm -rf ~/.local/share/nvim
+    rm -rf ~/.local/state/nvim
+    rm -rf ~/.cache/nvim
+    rm -rf ~/.config/nvim/.git
+
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+
     if command -v 1password >/dev/null 2>&1; then
-	    print -P "%F{green}✓ 1password already installed - skipping%f"
+	    print -P "%F{yellow}✓ 1password already installed - skipping%f"
     else
 	    in 1password
     fi
     if command -v zen-browser >/dev/null 2>&1; then
-	    print -P "%F{green}✓ zen-browser already installed - skipping%f"
+	    print -P "%F{yellow}✓ zen-browser already installed - skipping%f"
     else
 	    paru -S --noconfirm zen-browser
     fi
     if command -v zeditor >/dev/null 2>&1; then
-	    print -P "%F{green}✓ zed already installed - skipping%f"
+	    print -P "%F{yellow}✓ zed already installed - skipping%f"
     else
 	    paru -S --noconfirm zed
     fi
-    prompt 'Dotfiles installed.'
-    print -P "%F{green}✓ Dotfiles setup completed%f"
+    print -P "%F{green}✓ paru already installed - skipping%f"
 }
 
-function step_6_ssh_service()
+function ssh_service()
 {
     print -P "\n%F{blue}=== Step 6: Enabling and starting SSH service ===%f"
     if (sudo systemctl is-active --quiet sshd); then
@@ -247,7 +227,7 @@ function step_6_ssh_service()
     print -P "%F{green}✓ SSH service setup completed%f"
 }
 
-function step_7_docker_service()
+function docker_service()
 {
     print -P "\n%F{blue}=== Step 7: Enabling and starting Docker service ===%f"
     if (sudo systemctl is-active --quiet docker); then
@@ -264,6 +244,37 @@ function step_7_docker_service()
     print -P "%F{green}✓ Docker service setup completed%f"
 }
 
+function sync_browser()
+{
+  print -P "\n%F{blue}=== Browser sync: Syncing Browser data ===%f"
+  if pgrep -x "zen-bin" > /dev/null; then
+    prompt "Zen browser is running, it needs to be closed to sync."
+    pkill -x "zen-bin"
+  fi
+  if [[ "~/.zen"]]; then
+    mv ~/.zen ~/.zen_backup
+  fi
+  git clone git@github.com-setpoint:mbe-setpoint/zen-sync.git ~/.zen
+
+  print -P "%F{green}✓ Browser data syncked.%f"
+
+}
+
+function show_menu()
+{
+    print -P "\n%F{cyan}=== Wave Server Setup Menu ===%f"
+    print -P "%F{white}Choose which steps to execute:%f\n"
+    print -P "%F{yellow}0)%f Set static ip"
+    print -P "%F{yellow}1)%f Fix power settings (disable hibernate/sleep)"
+    print -P "%F{yellow}2)%f Configure git settings"
+    print -P "%F{yellow}3)%f Install dotfiles and extra software"
+    print -P "%F{yellow}4)%f Enable and start services"
+    print -P "%F{yellow}5)%f Sync Browser data"
+    print -P "%F{green}6)%f Run most default steps"
+    print -P "%F{red}9)%f Exit"
+    print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 6): %f"
+}
+
 function execute_steps()
 {
     local choices=$1
@@ -275,30 +286,25 @@ function execute_steps()
     for step in $selected_steps; do
         case $step in
             0)
-                step_0_ip_settings
+                ip_settings
                 ;;
             1)
-                step_1_power_settings
+                power_settings
                 ;;
             2)
-                step_2_git_config
+                git_config
                 ;;
             3)
-                step_3_oh_my_zsh
+                dotfiles_and_software
                 ;;
             4)
-                step_4_install_software
+                ssh_service
+                docker_service
                 ;;
             5)
-                step_5_dotfiles
+              sync_browser
                 ;;
             6)
-                step_6_ssh_service
-                ;;
-            7)
-                step_7_docker_service
-                ;;
-            8)
                 print -P "\n%F{green}=== Running default steps ===%f"
                 step_2_git_config
                 step_3_oh_my_zsh
@@ -321,7 +327,6 @@ function execute_steps()
 
 # Main execution
 print_welcome_message
-prompt ''
 
 while true; do
     show_menu
