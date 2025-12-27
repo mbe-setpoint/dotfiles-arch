@@ -174,7 +174,7 @@ function dotfiles_and_software()
     print -P "%F{green}✓ Dotfiles setup completed%f"
 
     print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
-    sudo pacman -S --needed base-devel btop tmux starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
+    sudo pacman -S --needed base-devel btop caligula tmux virt-manager starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
     if command -v paru >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ paru already installed - skipping%f"
     else
