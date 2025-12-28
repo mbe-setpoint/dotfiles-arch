@@ -137,14 +137,14 @@ EOF
 
 function power_settings()
 {
-    print -P "\n%F{blue}=== Step 1: Fixing power settings ===%f"
+    print -P "\n%F{blue}=== Fixing power settings ===%f"
     sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
     print -P "%F{green}✓ Power settings configured%f"
 }
 
 function git_config()
 {
-    print -P "\n%F{blue}=== Step 2: Fixing git settings ===%f"
+    print -P "\n%F{blue}=== Fixing git settings ===%f"
     git config --global user.email "mbe@setpoint.no"
     git config --global user.name "Mads Bergdal"
     print -P "%F{green}✓ Git settings configured%f"
@@ -152,7 +152,7 @@ function git_config()
 
 function dotfiles_and_software()
 {
-    print -P "\n%F{blue}=== Step 3: Installing oh-my-zsh ===%f"
+    print -P "\n%F{blue}=== Installing oh-my-zsh ===%f"
     if (( ${+ZSH} )); then
         print -P '%F{yellow}$ZSH is already present.\n%f'
         prompt ''
@@ -163,17 +163,8 @@ function dotfiles_and_software()
     fi
     print -P "%F{green}✓ Oh-my-zsh setup completed%f"
 
-    print -P "\n%F{blue}=== Step 5: Installing dotfiles ===%f"
-    git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
-    git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
-    cd ~/.dotfiles
-    stow --adopt .
-    git restore .
-    cd ~
-    source ~/.zshrc
-    print -P "%F{green}✓ Dotfiles setup completed%f"
 
-    print -P "\n%F{blue}=== Step 4: Installing extra software ===%f"
+    print -P "\n%F{blue}=== Installing packages ===%f"
     sudo pacman -S --needed base-devel btop caligula tmux virt-manager starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
     if command -v paru >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ paru already installed - skipping%f"
@@ -196,10 +187,23 @@ function dotfiles_and_software()
     # git clone https://github.com/LazyVim/starter ~/.config/nvim
     git clone git@github.com:mbe-setpoint/mbe-nvim.git ~/.config/nvim
 
+    print -P "\n%F{blue}=== Installing dotfiles ===%f"
+    git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
+    git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
+    cd ~/.dotfiles
+    stow --adopt .
+    git restore .
+    cd ~
+    source ~/.zshrc
+    print -P "%F{green}✓ Dotfiles setup completed%f"
+    
+    prompt 'Install extra software?'
+
+    print -P "\n%F{blue}=== Installing extra software ===%f"
     if command -v 1password >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ 1password already installed - skipping%f"
     else
-	    in 1password
+	    paru -S --noconfirm 1password
     fi
     if command -v zen-browser >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ zen-browser already installed - skipping%f"
@@ -211,12 +215,12 @@ function dotfiles_and_software()
     else
 	    paru -S --noconfirm zed
     fi
-    print -P "%F{green}✓ paru already installed - skipping%f"
+    print -P "%F{green}✓ Extra software installed%f"
 }
 
 function ssh_service()
 {
-    print -P "\n%F{blue}=== Step 6: Enabling and starting SSH service ===%f"
+    print -P "\n%F{blue}=== Enabling and starting SSH service ===%f"
     if (sudo systemctl is-active --quiet sshd); then
         print -P "%F{yellow}SSH is already running.\n%f"
         prompt ''
@@ -230,7 +234,7 @@ function ssh_service()
 
 function docker_service()
 {
-    print -P "\n%F{blue}=== Step 7: Enabling and starting Docker service ===%f"
+    print -P "\n%F{blue}=== Enabling and starting Docker service ===%f"
     if (sudo systemctl is-active --quiet docker); then
         print -P "%F{yellow}Docker is already running.\n%f"
         prompt ''
@@ -272,7 +276,7 @@ function show_menu()
     print -P "%F{yellow}3)%f Install dotfiles and extra software"
     print -P "%F{yellow}4)%f Enable and start services"
     print -P "%F{yellow}5)%f Sync Browser data"
-    print -P "%F{green}6)%f Run most default steps"
+    print -P "%F{green}6)%f Run default steps"
     print -P "%F{red}9)%f Exit"
     print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 6): %f"
 }
