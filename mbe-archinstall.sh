@@ -185,10 +185,10 @@ function dotfiles_and_software()
     rm -rf ~/.config/nvim/.git
 
     print -P "\n%F{blue}=== Installing dotfiles ===%f"
-    if ![[ -d ~/.tmux/plugins/tpm]] then
+    if [[ ! -d ~/.tmux/plugins/tpm]] then
     	git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     fi
-    if ![[ -d ~/.dotfiles ]] then
+    if [[ ! -d ~/.dotfiles ]] then
 	    git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
     else
 	    cd ~/.dotfiles
