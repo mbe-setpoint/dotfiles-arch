@@ -184,9 +184,6 @@ function dotfiles_and_software()
     rm -rf ~/.cache/nvim
     rm -rf ~/.config/nvim/.git
 
-    # git clone https://github.com/LazyVim/starter ~/.config/nvim
-    git clone git@github.com:mbe-setpoint/mbe-nvim.git ~/.config/nvim
-
     print -P "\n%F{blue}=== Installing dotfiles ===%f"
     git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
@@ -195,6 +192,8 @@ function dotfiles_and_software()
     git restore .
     cd ~
     source ~/.zshrc
+    # git clone https://github.com/LazyVim/starter ~/.config/nvim
+    git clone git@github.com:mbe-setpoint/mbe-nvim.git ~/.config/nvim
     print -P "%F{green}✓ Dotfiles setup completed%f"
     
     prompt 'Install extra software?'
