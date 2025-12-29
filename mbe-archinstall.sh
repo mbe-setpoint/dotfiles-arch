@@ -193,7 +193,7 @@ function dotfiles_and_software()
     cd ~
     source ~/.zshrc
     # git clone https://github.com/LazyVim/starter ~/.config/nvim
-    git clone git@github.com-setpoint:mbe-setpoint/mbe-nvim.git ~/.config/nvim
+    git clone git@github.com-setpoint:mbe-setpoint/nvim-mbe.git ~/.config/nvim
     print -P "%F{green}✓ Dotfiles setup completed%f"
     
     prompt 'Install extra software?'
