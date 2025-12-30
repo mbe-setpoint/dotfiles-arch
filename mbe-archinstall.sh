@@ -214,7 +214,7 @@ function dotfiles_and_software()
     if command -v zen-browser >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ zen-browser already installed - skipping%f"
     else
-	    paru -S --noconfirm zen-browser
+	    paru -S --noconfirm zen-browser-bin
     fi
     if command -v zeditor >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ zed already installed - skipping%f"
