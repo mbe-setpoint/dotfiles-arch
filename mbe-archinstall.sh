@@ -189,7 +189,7 @@ function dotfiles_and_software()
     	git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     fi
     if [[ ! -d ~/.dotfiles ]]; then
-	    git clone https://github.com/mbe-setpoint/dotfiles-arch ~/.dotfiles
+	    git clone git@github.com-setpoint:mbe-setpoint/dotfiles-arch.git ~/.dotfiles
     else
 	    cd ~/.dotfiles
 	    git pull
