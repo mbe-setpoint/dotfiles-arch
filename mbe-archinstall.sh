@@ -165,7 +165,7 @@ function dotfiles_and_software()
 
 
     print -P "\n%F{blue}=== Installing packages ===%f"
-    sudo pacman -S --needed base-devel btop caligula tmux qemu virt-manager libvirt dnsmasq ebtables iptables-nft dmidecode starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
+    sudo pacman -S --needed base-devel btop caligula tmux qemu-full virt-manager libvirt dnsmasq ebtables iptables-nft dmidecode starship stow docker docker-compose ghostty fastfetch zoxide lazygit lazydocker bat ripgrep fzf eza mise
     if command -v paru >/dev/null 2>&1; then
 	    print -P "%F{yellow}✓ paru already installed - skipping%f"
     else
