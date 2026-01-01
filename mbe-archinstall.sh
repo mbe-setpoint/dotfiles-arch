@@ -248,11 +248,28 @@ function docker_service()
         sudo systemctl enable docker
         sudo systemctl start docker
         # Add setpoint user to docker group
-        print "Adding setpoint user to docker group"
-        sudo usermod -aG docker setpoint
+        print "Adding mbe user to docker group"
+        sudo usermod -aG docker mbe
         prompt 'Docker service started.'
     fi
     print -P "%F{green}✓ Docker service setup completed%f"
+}
+
+function libvirt_service()
+{
+    print -P "\n%F{blue}=== Enabling and starting libvirt service ===%f"
+    if (sudo systemctl is-active --quiet libvirtd); then
+        print -P "%F{yellow}Libvirt is already running.\n%f"
+        prompt ''
+    else
+        sudo systemctl enable libvirtd
+        sudo systemctl start libvirtd
+        # Add setpoint user to docker group
+        print "Adding mbe user to docker group"
+        sudo usermod -aG libvirt mbe
+        prompt 'Libvirt service started.'
+    fi
+    print -P "%F{green}✓ Libvirt service setup completed%f"
 }
 
 function sync_browser()
@@ -312,6 +329,7 @@ function execute_steps()
             4)
                 ssh_service
                 docker_service
+                libvirt_service
                 ;;
             5)
               sync_browser
@@ -322,6 +340,7 @@ function execute_steps()
                 dotfiles_and_software
                 ssh_service
                 docker_service
+                libvirt_service
                 break
                 ;;
             9)
