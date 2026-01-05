@@ -249,7 +249,8 @@ function docker_service()
         sudo systemctl start docker
         # Add setpoint user to docker group
         print "Adding mbe user to docker group"
-        sudo usermod -aG docker mbe
+        sudo usermod -aG docker $USER
+        newgrp docker
         prompt 'Docker service started.'
     fi
     print -P "%F{green}✓ Docker service setup completed%f"

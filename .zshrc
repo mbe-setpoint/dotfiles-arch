@@ -283,6 +283,7 @@ alias mv='mv -i'              # Confirm before overwrite
 alias rm='rm -i'              # Confirm before delete
 alias myip='curl -s https://ifconfig.me'
 alias ports='sudo netstat -tulanp'
+alias cat='bat'
 
 # Navigation
 bindkey '^A' beginning-of-line           # Ctrl+A
