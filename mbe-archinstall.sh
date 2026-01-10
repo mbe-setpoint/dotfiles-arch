@@ -290,6 +290,19 @@ function sync_browser()
 
 }
 
+function sync_zed()
+{
+  print -P "\n%F{blue}=== Zed sync: Syncing Zed data ===%f"
+  if [[ -d ~/.config/zed ]]; then
+    print -P "%F{yellow}0)%f Backing up .config/zed folder"
+    mv ~/.config/zed ~/.config/zed_backup
+  fi
+  git clone git@github.com-setpoint:mbe-setpoint/zed-mbe.git ~/.config/zed
+
+  print -P "%F{green}✓ Zed data syncked.%f"
+
+}
+
 function show_menu()
 {
     print -P "\n%F{cyan}=== Wave Server Setup Menu ===%f"
@@ -300,7 +313,8 @@ function show_menu()
     print -P "%F{yellow}3)%f Install dotfiles and extra software"
     print -P "%F{yellow}4)%f Enable and start services"
     print -P "%F{yellow}5)%f Sync Browser data"
-    print -P "%F{green}6)%f Run default steps"
+    print -P "%F{yellow}6)%f Run default steps"
+    print -P "%F{yellow}7)%f Sync Zed data"
     print -P "%F{red}9)%f Exit"
     print -P "\n%F{white}Enter your choices (e.g., 1,3,5 or 6): %f"
 }
@@ -343,6 +357,9 @@ function execute_steps()
                 docker_service
                 libvirt_service
                 break
+                ;;
+            7)
+              sync_zed
                 ;;
             9)
                 print -P "\n%F{red}Exiting setup...%f"

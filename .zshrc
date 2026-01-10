@@ -318,17 +318,18 @@ if command -v eza &>/dev/null; then
     alias l='eza -l --icons=auto --group-directories-first'
     alias ll='eza -la --icons=auto --sort=name --group-directories-first'
     alias lt='eza --tree --level=2 --icons=auto'
-    alias ld='eza -lD --icons=auto'
 else
     alias ls='ls --color=auto'
     alias l='ls -lh'
     alias ll='ls -lha'
-    alias ld='ls -lhd */'
 fi
 
 #Initialize zoxide
 eval "$(zoxide init zsh --cmd cd)"
 #Initialize mise
 eval "$(/usr/bin/mise activate zsh)"
+
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 # zprof  # Shows what's slowing down startup
